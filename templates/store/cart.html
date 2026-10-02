@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}My Cart | Dry Fruits Farm{% endblock %}
+
+{% block content %}
+
+<section class="cart-page">
+
+    <h2>🛒 My Shopping Cart</h2>
+
+    {% if items %}
+
+        {% for item in items %}
+
+        <div class="cart-card">
+
+            <div class="cart-image">
+                {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}"
+                         alt="{{ item.product.name }}">
+                {% else %}
+                    <span>🥜</span>
+                {% endif %}
+            </div>
+
+            <div class="cart-info">
+
+                <h3>{{ item.product.name }}</h3>
+
+                <p class="cart-price">
+                    ₹{{ item.product.price }}
+                </p>
+
+                <div class="quantity-box">
+
+                    <a href="{% url 'store:cart_decrease' item.product.id %}">
+                        −
+                    </a>
+
+                    <span>{{ item.quantity }}</span>
+
+                    <a href="{% url 'store:cart_increase' item.product.id %}">
+                        +
+                    </a>
+
+                </div>
+
+                <p>
+                    Subtotal:
+                    <strong>₹{{ item.subtotal }}</strong>
+                </p>
+
+                <a class="remove-btn"
+                   href="{% url 'store:cart_remove' item.product.id %}">
+                    🗑 Remove
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        <div class="cart-total">
+
+            <h3>Total Amount</h3>
+
+            <h2>₹{{ total }}</h2>
+            <a href="{% url 'store:place_order' %}" class="button">
+    🛒 Place Order
+</a>
+
+            <button class="checkout-btn">
+                Proceed to Checkout
+            </button>
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-cart">
+
+            <div class="empty-icon">🛒</div>
+
+            <h2>Your Cart is Empty</h2>
+
+            <p>Add some delicious dry fruits to your cart.</p>
+
+            <a class="button"
+               href="{% url 'store:product_list' %}">
+                Continue Shopping
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

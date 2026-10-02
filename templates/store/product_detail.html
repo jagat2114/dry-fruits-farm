@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }} | Dry Fruits Farm{% endblock %}
+{% block content %}
+<section class="detail-card">
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    {% else %}
+        <div class="image-placeholder large">🥜</div>
+    {% endif %}
+    <div>
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+       <p class="price">₹{{ product.price }}</p>
+
+{% if product.available %}
+
+    <p style="color: green; font-weight: bold;">
+        🟢 In Stock
+    </p>
+
+    <a class="button"
+       href="{% url 'store:cart_add' product.id %}">
+        🛒 Add to Cart
+    </a>
+
+{% else %}
+
+    <p style="color: red; font-weight: bold;">
+        🔴 Out of Stock
+    </p>
+
+{% endif %}
+    </div>
+</section>
+{% endblock %}

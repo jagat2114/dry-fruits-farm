@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | Dry Fruits Farm{% endblock %}
+
+{% block content %}
+
+<section class="banner">
+
+    <h2>Welcome to Our Dry Fruits Shop</h2>
+
+    <p>
+        Buy premium quality dry fruits for a healthy lifestyle!
+    </p>
+
+    <a class="button"
+       href="{% url 'store:product_list' %}">
+        Shop Now
+    </a>
+
+</section>
+
+
+<section class="products">
+
+    <h2>Featured Products</h2>
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+        <div class="product-box">
+
+            {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     alt="{{ product.name }}">
+            {% else %}
+                <div class="image-placeholder">
+                    🥜
+                </div>
+            {% endif %}
+
+            <h3>{{ product.name }}</h3>
+
+            <p class="price">
+                ₹{{ product.price }}
+            </p>
+
+            <a class="button"
+               href="{% url 'store:product_detail' product.slug %}">
+                Details
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

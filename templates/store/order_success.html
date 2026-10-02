@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Successful | Dry Fruits Farm{% endblock %}
+
+{% block content %}
+<section class="cart-page">
+    <div class="cart-summary">
+        <h2>🎉 Order Placed Successfully!</h2>
+
+        <p>Thank you for shopping with Dry Fruits Farm.</p>
+
+        <h3>Order Details</h3>
+
+        <p><strong>Order Number:</strong> #{{ order.id }}</p>
+        <p><strong>Customer Name:</strong> {{ order.customer_name }}</p>
+        <p><strong>Mobile:</strong> {{ order.mobile }}</p>
+        <p><strong>Delivery Address:</strong> {{ order.address }}</p>
+        <p><strong>Total Amount:</strong> ₹{{ order.total_amount }}</p>
+        <p><strong>Order Status:</strong> {{ order.get_status_display }}</p>
+
+        <a class="button" href="{% url 'store:product_list' %}">
+            Continue Shopping
+        </a>
+    </div>
+</section>
+{% endblock %}

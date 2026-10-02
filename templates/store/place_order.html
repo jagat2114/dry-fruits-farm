@@ -1,0 +1,66 @@
+```html
+{% extends 'base.html' %}
+
+{% block title %}Place Order | Dry Fruits Farm{% endblock %}
+
+{% block content %}
+<section class="cart-page">
+    <h2>Place Your Order</h2>
+
+    <div class="cart-container">
+        <div class="cart-items">
+            <h3>Order Summary</h3>
+
+            {% for item in items %}
+            <div class="cart-item">
+                <div>
+                    <h4>{{ item.product.name }}</h4>
+                    <p>Price: ₹{{ item.product.price }}</p>
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p>Subtotal: ₹{{ item.subtotal }}</p>
+                </div>
+            </div>
+            {% endfor %}
+
+            <h3>Total Amount: ₹{{ total }}</h3>
+        </div>
+
+        <div class="cart-summary">
+            <h3>Customer Details</h3>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <label>Full Name</label>
+                <input
+                    type="text"
+                    name="customer_name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+                <label>Mobile Number</label>
+                <input
+                    type="tel"
+                    name="mobile"
+                    placeholder="Enter mobile number"
+                    pattern="[0-9]{10,15}"
+                    required
+                >
+
+                <label>Delivery Address</label>
+                <textarea
+                    name="address"
+                    placeholder="Enter your full delivery address"
+                    rows="4"
+                    required
+                ></textarea>
+
+                <button type="submit" class="button">
+                    Place Order
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

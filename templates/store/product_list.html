@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+
+{% block title %}Products | Dry Fruits Farm{% endblock %}
+
+{% block content %}
+
+<section class="products">
+
+
+<h2>Our Products</h2>
+
+<!-- SEARCH & CATEGORY FILTER -->
+
+<div class="product-filter">
+
+    <form method="GET">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="🔍 Search products..."
+            value="{{ search }}"
+        >
+
+        <select name="category">
+
+            <option value="">All Categories</option>
+
+            <option value="dry_fruits"
+                {% if category == 'dry_fruits' %}selected{% endif %}>
+                🥜 Dry Fruits
+            </option>
+
+            <option value="seeds"
+                {% if category == 'seeds' %}selected{% endif %}>
+                🌱 Seeds
+            </option>
+
+            <option value="namkeen"
+                {% if category == 'namkeen' %}selected{% endif %}>
+                🧂 Namkeen
+            </option>
+
+        </select>
+
+        <button type="submit" class="button">
+            Search
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- DRY FRUITS -->
+
+<h2>🥜 Dry Fruits</h2>
+
+<div class="product-grid">
+
+    {% for product in products %}
+
+        {% if product.category == 'dry_fruits' %}
+
+        <div class="product-box">
+
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="image-placeholder">🥜</div>
+            {% endif %}
+
+            <h3>{{ product.name }}</h3>
+
+            <p class="price">₹{{ product.price }}</p>
+
+            <a class="button"
+               href="{{ product.get_absolute_url }}">
+                Details
+            </a>
+
+            {% if product.available %}
+
+                <p style="color: green; font-weight: bold;">
+                    🟢 In Stock
+                </p>
+
+                <p style="font-weight: bold;">
+    📦 Stock: {{ product.stock }}
+</p>
+
+                <a class="button"
+                   href="{% url 'store:cart_add' product.id %}">
+                    🛒 Add to Cart
+                </a>
+
+            {% else %}
+
+                <p style="color: red; font-weight: bold;">
+                    🔴 Out of Stock
+                </p>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+    {% endfor %}
+
+</div>
+
+
+<!-- SEEDS -->
+
+<h2>🌱 Seeds</h2>
+
+<div class="product-grid">
+
+    {% for product in products %}
+
+        {% if product.category == 'seeds' %}
+
+        <div class="product-box">
+
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="image-placeholder">🌱</div>
+            {% endif %}
+
+            <h3>{{ product.name }}</h3>
+
+            <p class="price">₹{{ product.price }}</p>
+
+            <a class="button"
+               href="{% url 'store:product_detail' product.slug %}">
+                Details
+            </a>
+
+            {% if product.available %}
+
+                <p style="color: green; font-weight: bold;">
+                    🟢 In Stock
+                </p>
+
+                <p style="font-weight: bold;">
+    📦 Stock: {{ product.stock }}
+</p>
+
+                <a class="button"
+                   href="{% url 'store:cart_add' product.id %}">
+                    🛒 Add to Cart
+                </a>
+
+            {% else %}
+
+                <p style="color: red; font-weight: bold;">
+                    🔴 Out of Stock
+                </p>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+    {% endfor %}
+
+</div>
+
+
+<!-- NAMKEEN -->
+
+<h2>🧂 Namkeen</h2>
+
+<div class="product-grid">
+
+    {% for product in products %}
+
+        {% if product.category == 'namkeen' %}
+
+        <div class="product-box">
+
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="image-placeholder">🧂</div>
+            {% endif %}
+
+            <h3>{{ product.name }}</h3>
+
+            <p class="price">₹{{ product.price }}</p>
+
+            <a class="button"
+               href="{{ product.get_absolute_url }}">
+                Details
+            </a>
+
+            {% if product.available %}
+
+                <p style="color: green; font-weight: bold;">
+                    🟢 In Stock
+                </p>
+
+                <p style="font-weight: bold;">
+    📦 Stock: {{ product.stock }}
+</p>
+
+                <a class="button"
+                   href="{% url 'store:cart_add' product.id %}">
+                    🛒 Add to Cart
+                </a>
+
+            {% else %}
+
+                <p style="color: red; font-weight: bold;">
+                    🔴 Out of Stock
+                </p>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+    {% endfor %}
+
+</div>
+
+
+</section>
+
+{% endblock %}

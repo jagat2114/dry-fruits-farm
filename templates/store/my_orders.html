@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}My Orders | Dry Fruits Farm{% endblock %}
+
+{% block content %}
+<section class="cart-page">
+
+    <h2>📦 My Orders</h2>
+
+    {% if orders %}
+
+        {% for order in orders %}
+        <div class="cart-summary" style="margin-bottom: 20px;">
+
+            <h3>Order #{{ order.id }}</h3>
+
+            <p>
+                <strong>Order Date:</strong>
+                {{ order.created_at|date:"d M Y, h:i A" }}
+            </p>
+
+            <p>
+                <strong>Customer Name:</strong>
+                {{ order.customer_name }}
+            </p>
+
+            <p>
+                <strong>Mobile:</strong>
+                {{ order.mobile }}
+            </p>
+
+            <p>
+                <strong>Total Amount:</strong>
+                ₹{{ order.total_amount }}
+            </p>
+
+           <p>
+    <strong>Status:</strong>
+
+    {% if order.status == 'pending' %}
+        🟡 Pending
+
+    {% elif order.status == 'confirmed' %}
+        🔵 Confirmed
+
+    {% elif order.status == 'shipped' %}
+        🚚 Shipped
+
+    {% elif order.status == 'delivered' %}
+        🟢 Delivered
+
+    {% elif order.status == 'cancelled' %}
+        🔴 Cancelled
+
+    {% endif %}
+</p>
+
+//time line 
+{% if order.status == 'pending' %}
+
+    <p>🟡 Order Received</p>
+
+{% elif order.status == 'confirmed' %}
+
+    <p>🟡 Order Received → 🔵 Confirmed</p>
+
+{% elif order.status == 'shipped' %}
+
+    <p>🟡 Order Received → 🔵 Confirmed → 🚚 Shipped</p>
+
+{% elif order.status == 'delivered' %}
+
+    <p>🟡 Order Received → 🔵 Confirmed → 🚚 Shipped → 🟢 Delivered</p>
+
+{% elif order.status == 'cancelled' %}
+
+    <p>🔴 Order Cancelled</p>
+
+{% endif %}
+            <a
+    class="button"
+    href="{% url 'store:order_detail' order.id %}"
+>
+    View Details
+</a>
+
+            <h4>Products:</h4>
+
+            {% for item in order.items.all %}
+                <p>
+                    {{ item.product_name }}
+                    × {{ item.quantity }}
+                    — ₹{{ item.price }}
+                </p>
+            {% endfor %}
+
+        </div>
+        {% endfor %}
+
+    {% else %}
+
+        <div class="cart-summary">
+            <h3>No Orders Yet</h3>
+            <p>You haven't placed any orders yet.</p>
+
+            <a class="button" href="{% url 'store:product_list' %}">
+                Start Shopping
+            </a>
+        </div>
+
+    {% endif %}
+
+</section>
+{% endblock %}

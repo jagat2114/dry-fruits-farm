@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Details | Dry Fruits Farm{% endblock %}
+
+{% block content %}
+
+<section class="cart-page">
+
+    <h2>📦 Order Details</h2>
+
+    <div class="cart-summary">
+
+        <h3>Order #{{ order.id }}</h3>
+
+        <p>
+            <strong>Order Date:</strong>
+            {{ order.created_at|date:"d M Y, h:i A" }}
+        </p>
+
+        <p>
+            <strong>Customer Name:</strong>
+            {{ order.customer_name }}
+        </p>
+
+        <p>
+            <strong>Mobile:</strong>
+            {{ order.mobile }}
+        </p>
+
+        <p>
+            <strong>Delivery Address:</strong>
+            {{ order.address }}
+        </p>
+
+        <p>
+            <strong>Order Status:</strong>
+            {{ order.get_status_display }}
+        </p>
+
+        <hr>
+
+        <h3>Products</h3>
+
+      {% for item in order.items.all %}
+
+    <div style="margin-bottom: 20px;">
+
+        {% if item.product and item.product.image %}
+            <img
+                src="{{ item.product.image.url }}"
+                alt="{{ item.product_name }}"
+                style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;"
+            >
+        {% else %}
+            <div class="image-placeholder">
+                🥜
+            </div>
+        {% endif %}
+
+        <p>
+            <strong>{{ item.product_name }}</strong>
+        </p>
+
+        <p>
+            Price: ₹{{ item.price }}
+        </p>
+
+        <p>
+            Quantity: {{ item.quantity }}
+        </p>
+
+        <p>
+            Subtotal:
+            ₹{% widthratio item.price 1 item.quantity %}
+        </p>
+
+    </div>
+
+{% endfor %}
+        <hr>
+
+        {% if order.status == 'pending' %}
+    <form
+        method="POST"
+        action="{% url 'store:cancel_order' order.id %}"
+        style="margin-top: 10px;"
+    >
+        {% csrf_token %}
+
+        <button type="submit" class="button">
+            ❌ Cancel Order
+        </button>
+    </form>
+{% endif %}
+
+        <h3>
+            Total Amount: ₹{{ order.total_amount }}
+        </h3>
+
+        <a
+            class="button"
+            href="{% url 'store:my_orders' %}"
+        >
+            ← Back to My Orders
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}
