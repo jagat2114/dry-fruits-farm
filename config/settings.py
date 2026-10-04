@@ -8,7 +8,7 @@ SECRET_KEY = os.environ.get(
     'change-this-secret-key-for-production'
 )
 
-DEBUG = 'RENDER' not in os.environ
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
